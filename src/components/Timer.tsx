@@ -1,19 +1,17 @@
+import { Progress } from "antd";
 import { useEffect, useState } from "react";
+type Props = {
+    seconds: number;
+}
 
-export const Timer = () => {
-const [minutes, setMinutes] = useState(0);
-const [seconds, setSeconds] = useState(0);
+export const Timer = (props: Props) => {
+const [seconds, setSeconds] = useState(props.seconds);
 
 useEffect(() => {
     const timer = setInterval(
 () => {
-    if (seconds === 60) {
-        setMinutes(minutes + 1);
-        setSeconds(0);
-    } else {
-
-        setSeconds(seconds +1);
-        }
+    if (seconds <=0) return;
+setSeconds(seconds - 1);
     }, 1000);
 
     return () =>{
@@ -23,9 +21,5 @@ useEffect(() => {
 }
 );
 
-    return <>
-    <span>{minutes}</span>
-    <span>:</span>
-    <span>{seconds}</span>
-    </>
+    return <Progress type="circle" percent={+(seconds / props.seconds * 100).toFixed(2)}/>
 }
