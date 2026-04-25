@@ -1,30 +1,36 @@
-import { useState } from "react";
-
+import { useState, type ChangeEventHandler } from "react";
+ 
 export function Todolist() {
-    const [list, setList] = useState<string[]>([]);
-    const [text, setText] = useState('')
-
-
+    const [state, setState] = useState<string[]>([]);
+    const [input, setInput] = useState('');
+    const [search, setSearch] = useState('');
+ 
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+        setInput(event.target.value);
+    };
+ 
+    const handleClick = () => {
+        setState([...state, input]);
+        setInput('');
+    }
+ const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setSearch(event.target.value)
+ }
     return <>
-    <input type="text" value={text} onChange={(event) => 
-        setText(event.target.value)
-    } />
-    <button onClick={() => {setList([...list,text]);
-        setText('');
-    }}>Добавить</button>
-
-    <ul>
-    {
-    list.map((item, index) => {
-return <li>{item} <button onClick={() => {
-    const newList = [...list];
-    newList[index] = ' '
-
-
-    setList(newList.filter(Boolean))
-}}>-</button></li>
-})
-}
-    </ul>
+    <input type ="text" value={search} onChange = {handleSearchChange}/>
+        <input
+            type="text"
+            value={input}
+            onChange={handleChange}
+        />
+        <button onClick={handleClick}>+</button>
+        <ul>
+            {state.filter(elem => {
+                if (search === undefined) return true;
+               return elem.includes(search)
+            }).map((element) => {
+                return <li>{element}</li>
+            })}
+        </ul>
     </>
 }

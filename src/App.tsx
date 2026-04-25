@@ -1,9 +1,9 @@
-import { Timer } from "./components/Timer";
+import { Todolist } from "./components/Todolist";
 
 function App() {
   return (
     <>
-    <Timer seconds = {360} />
+    <Todolist/>
     </>
   )
 }
